@@ -122,6 +122,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <PackageReference Include="Microsoft.Bcl">
+      <Version>1.1.10</Version>
+    </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
     <AssemblyTitle>Json.NET Tests .NET 4.0</AssemblyTitle>

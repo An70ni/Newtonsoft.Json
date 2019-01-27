@@ -35,9 +35,18 @@ namespace Newtonsoft.Json.Utilities
     internal static class AsyncUtils
     {
         // Pre-allocate to avoid wasted allocations.
-        public static readonly Task<bool> False = Task.FromResult(false);
-        public static readonly Task<bool> True = Task.FromResult(true);
-
+        public static readonly Task<bool> False =
+#if NET40
+                TaskEx.FromResult(false);
+#else
+                Task.FromResult(false);
+#endif
+        public static readonly Task<bool> True =
+#if NET40
+                TaskEx.FromResult(true);
+#else
+                Task.FromResult(true);
+#endif
         internal static Task<bool> ToAsync(this bool value) => value ? True : False;
 
         public static Task CancelIfRequestedAsync(this CancellationToken cancellationToken)
@@ -67,7 +76,12 @@ namespace Newtonsoft.Json.Utilities
         // Task.Delay(0) is optimised as a cached task within the framework, and indeed
         // the same cached task that Task.CompletedTask returns as of 4.6, but we'll add
         // our own cached field for previous frameworks.
-        internal static readonly Task CompletedTask = Task.Delay(0);
+        internal static readonly Task CompletedTask =
+#if NET40
+                TaskEx.Delay(0);
+#else
+                Task.Delay(0);
+#endif
 
         public static Task WriteAsync(this TextWriter writer, char value, CancellationToken cancellationToken)
         {
